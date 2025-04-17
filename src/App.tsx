@@ -1,18 +1,26 @@
 import './App.css'
 import { Button, HStack, Grid, GridItem, Show } from "@chakra-ui/react"
+import Navbar  from './Components/Navbar'
+import GameGrid from './Components/GameGrid'
 
 function App() {
 
   return (
-    <Grid templateAreas={{
+    <Grid 
+    templateAreas={{
       base: `"nav" "main"`,
-      lg: `"nav nav" "aside main"`
-    }}>
-      <GridItem area='nav' bg='coral'>Nav</GridItem>
-      <Show when="lg">
+      lg: `"nav nav" "aside main"`,
+    }}
+    // templateColumns={{
+    //   base: '1fr',
+    //   lg: '250px 1fr'
+    // }}
+    >
+      <GridItem area='nav'><Navbar /></GridItem>
+      <Show above="lg">
         <GridItem area='aside' bg='gold'>Aside</GridItem>
       </Show>
-      <GridItem area='main' bg='dodgerblue'>Main</GridItem>
+      <GridItem area="main"  bg='dodgerblue'><GameGrid /></GridItem>
     </Grid>
   )
 }
