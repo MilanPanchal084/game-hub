@@ -1,22 +1,35 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import { SimpleGrid, Text } from "@chakra-ui/react";
 import Gamecard from "./Gamecard";
 import LoadingSkeletons from "./LoadingSkeletons";
 import GameCardContainer from "./GameCardContainer";
 import useData from "../Hooks/useData";
-import { Games } from "../services/globaslInterfaces";
+import { Games, Genre } from "../services/globaslInterfaces";
 
-const GameGrid = () => {
-  const { data, errors, isloading } = useData<Games>("/games");
+interface Props {
+  selectedGenre: Genre | null;
+}
+
+const GameGrid = ({ selectedGenre }: Props) => {
+  const { data, errors, isloading } = useData<Games>("/games", {params: {'genres': selectedGenre?.id}}, [selectedGenre?.id]);
   const Skeletons = [1, 2, 3, 4, 5, 6, 7, 8];
+  // let filteredData = data;
+
+  // if (selectedGenre) {
+  //   const gameIds = selectedGenre.games.map((game) => game.id);
+  //   filteredData = selectedGenre
+  //     ? data.filter((data) => gameIds.includes(data.id))
+  //     : data;
+  //   console.log(data.filter((data) => gameIds.includes(data.id)));
+  // }
 
   return (
     <>
       {errors && <Text>{errors}</Text>}
       <SimpleGrid
         columns={{ sm: 1, md: 2, lg: 3, "2xl": 5 }}
-        padding={10}
-        spacing={10}
+        padding={5}
+        spacing={3}
       >
         {isloading &&
           Skeletons.map((skeleton) => (
@@ -24,11 +37,11 @@ const GameGrid = () => {
               <LoadingSkeletons />
             </GameCardContainer>
           ))}
-        {data.map((game) => (
+        {data.length > 0 ? data.map((game) => (
           <GameCardContainer key={game.id}>
             <Gamecard game={game} />
           </GameCardContainer>
-        ))}
+        )) : <Text>No Games Found</Text>}
       </SimpleGrid>
     </>
   );

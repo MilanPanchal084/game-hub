@@ -2,6 +2,7 @@ export interface Genre{
     id: number;
     name: string;
     slug: string;
+    games: Games[];
     image_background: string
 }
 
