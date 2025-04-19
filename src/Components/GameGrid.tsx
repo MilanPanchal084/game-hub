@@ -23,9 +23,10 @@ const GameGrid = ({ gameQuery }: Props) => {
         genres: gameQuery.genre?.id,
         plateForms: gameQuery.platform?.id,
         sortOrder: gameQuery.sortOrder,
+        search: gameQuery.searchText
       },
     },
-    [gameQuery.genre?.id, gameQuery.platform?.id, gameQuery.sortOrder]
+    [gameQuery.genre?.id, gameQuery.platform?.id, gameQuery.sortOrder, gameQuery.searchText]
   );
   const Skeletons = [1, 2, 3, 4, 5, 6, 7, 8];
   // let filteredData = data;
