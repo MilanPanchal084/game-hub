@@ -4,14 +4,29 @@ import Gamecard from "./Gamecard";
 import LoadingSkeletons from "./LoadingSkeletons";
 import GameCardContainer from "./GameCardContainer";
 import useData from "../Hooks/useData";
-import { Games, Genre } from "../services/globaslInterfaces";
+import {
+  Games,
+  Genre,
+  Platform,
+  GameQuery,
+} from "../services/globaslInterfaces";
 
 interface Props {
-  selectedGenre: Genre | null;
+  gameQuery: GameQuery;
 }
 
-const GameGrid = ({ selectedGenre }: Props) => {
-  const { data, errors, isloading } = useData<Games>("/games", {params: {'genres': selectedGenre?.id}}, [selectedGenre?.id]);
+const GameGrid = ({ gameQuery }: Props) => {
+  const { data, errors, isloading } = useData<Games>(
+    "/games",
+    {
+      params: {
+        genres: gameQuery.genre?.id,
+        plateForms: gameQuery.platform?.id,
+        sortOrder: gameQuery.sortOrder,
+      },
+    },
+    [gameQuery.genre?.id, gameQuery.platform?.id, gameQuery.sortOrder]
+  );
   const Skeletons = [1, 2, 3, 4, 5, 6, 7, 8];
   // let filteredData = data;
 
@@ -28,7 +43,7 @@ const GameGrid = ({ selectedGenre }: Props) => {
       {errors && <Text>{errors}</Text>}
       <SimpleGrid
         columns={{ sm: 1, md: 2, lg: 3, "2xl": 5 }}
-        padding={5}
+        paddingY={5}
         spacing={3}
       >
         {isloading &&
@@ -37,11 +52,15 @@ const GameGrid = ({ selectedGenre }: Props) => {
               <LoadingSkeletons />
             </GameCardContainer>
           ))}
-        {data.length > 0 ? data.map((game) => (
-          <GameCardContainer key={game.id}>
-            <Gamecard game={game} />
-          </GameCardContainer>
-        )) : <Text>No Games Found</Text>}
+        {data.length > 0 ? (
+          data.map((game) => (
+            <GameCardContainer key={game.id}>
+              <Gamecard game={game} />
+            </GameCardContainer>
+          ))
+        ) : (
+          <Text>No Games Found</Text>
+        )}
       </SimpleGrid>
     </>
   );
