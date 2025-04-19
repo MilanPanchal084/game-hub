@@ -1,29 +1,34 @@
-// import React from "react";
 // import { useState, useEffect } from "react";
 // import apiClient from "../services/api-client";
 // import { CanceledError } from "axios";
 
+// export interface Genre{
+//     id: number;
+//     name: string;
+//     slug: string;
+//     image_background: string
+// }
 
-// interface GameResponse {
+// interface GenreResponse {
 //   count: number;
 //   next: string;
 //   previous: string;
-//   results: Games[];
+//   results: Genre[];
 // }
 
-// const useGames = () => {
-//   const [games, setGames] = useState<Games[]>([]);
+// const useGenres = ()=>{
 //   const [errors, setErrors] = useState("");
 //   const [isloading, setLoading] = useState(false);
+//   const [genres, setGenres] = useState<Genre[]>([])
 
 //   useEffect(() => {
 //     const controller = new AbortController();
 
 //     setLoading(true)
 //     apiClient
-//       .get<GameResponse>("/games", { signal: controller.signal })
+//       .get<GenreResponse>("/genres", { signal: controller.signal })
 //       .then((res) => {
-//         setGames(res.data.results)
+//         setGenres(res.data.results)
 //         setLoading(false)
 //       })
 //       .catch((err) => {
@@ -35,7 +40,6 @@
 //     return () => controller.abort();
 //   }, []);
 
-//   return { games, errors, isloading };
-// };
-
-// export default useGames;
+//   return { genres, errors, isloading };
+// }
+// export default useGenres;
