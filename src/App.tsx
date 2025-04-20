@@ -1,10 +1,10 @@
 import "./App.css";
-import { Button, HStack, Grid, GridItem, Show } from "@chakra-ui/react";
+import { HStack, Grid, GridItem, Show } from "@chakra-ui/react";
 import Navbar from "./Components/Navbar";
 import GameGrid from "./Components/GameGrid";
 import GenreList from "./Components/GenreList";
 import { useState } from "react";
-import { Genre, Platform, GameQuery } from "./services/globaslInterfaces";
+import { GameQuery } from "./services/globaslInterfaces";
 import PlatformSelector from "./Components/PlatformSelector";
 import SortBySelector from "./Components/SortBySelector";
 

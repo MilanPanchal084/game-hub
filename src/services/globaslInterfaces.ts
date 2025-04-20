@@ -18,6 +18,8 @@ export interface Games {
   name: string;
   parent_platforms: { platform: Platform }[];
   metacritic: number;
+  rating_top: number;
+  rating: number;
 }
 
 export interface GameQuery {
