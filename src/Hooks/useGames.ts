@@ -1,41 +1,34 @@
-// import React from "react";
-// import { useState, useEffect } from "react";
-// import apiClient from "../services/api-client";
-// import { CanceledError } from "axios";
+import { GameQuery } from "../App";
+import useData from "./useData";
+// import { Genre } from "./useGenres";
 
+export interface Platform {
+  id: number;
+  name: string;
+  slug: string;
+}
 
-// interface GameResponse {
-//   count: number;
-//   next: string;
-//   previous: string;
-//   results: Games[];
-// }
+export interface Game {
+  id: number;
+  name: string;
+  background_image: string;
+  parent_platforms: { platform: Platform }[];
+  metacritic: number;
+  rating_top: number;
+}
 
-// const useGames = () => {
-//   const [games, setGames] = useState<Games[]>([]);
-//   const [errors, setErrors] = useState("");
-//   const [isloading, setLoading] = useState(false);
+const useGames = (gameQuery: GameQuery) =>
+  useData<Game>(
+    "/games",
+    {
+      params: {
+        genres: gameQuery.genre?.id,
+        platforms: gameQuery.platform?.id,
+        ordering: gameQuery.sortOrder,
+        search: gameQuery.searchText
+      },
+    },
+    [gameQuery]
+  );
 
-//   useEffect(() => {
-//     const controller = new AbortController();
-
-//     setLoading(true)
-//     apiClient
-//       .get<GameResponse>("/games", { signal: controller.signal })
-//       .then((res) => {
-//         setGames(res.data.results)
-//         setLoading(false)
-//       })
-//       .catch((err) => {
-//         if (err instanceof CanceledError) return;
-//         setErrors(err.message);
-//         setLoading(false)
-//       });
-
-//     return () => controller.abort();
-//   }, []);
-
-//   return { games, errors, isloading };
-// };
-
-// export default useGames;
+export default useGames;
